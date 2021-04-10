@@ -5,41 +5,52 @@ public class Plant implements Reminder{
    private String name;
    private String verb;
    private int daysBetweenWater;
+   //Days since last time reminder triggered
+   private int offset;
 
    //Basic constructor
-   Plant(String name, int daysBetweenWater){
+   Plant(String name, int daysBetweenWater, int offset){
       this.name = name;
       this.daysBetweenWater = daysBetweenWater;
+      this.offset = offset;
    }
-
-    //Return array of dates between start and end in which the plant must be watered
-    //Since isDaily() == false, make sure that end is later in the day than start, otherwise
-    //end will not be included in the dates, even if it should be
-    public GregorianCalendar[] getDates(GregorianCalendar start, GregorianCalendar end){
-      ArrayList<GregorianCalendar> dates = new ArrayList<>();
-      //For every day between start and end, including start and end
-      while(start.getTime().before(end.getTime())){
-         dates.add(start);
-         start = (GregorianCalendar)start.clone();
+    
+   //Return the name of the plant
+   public String getNameString(){
+     return name;
+   }
+    
+   //Return "Water " + getNameString()
+   public String getVerbString(){
+     return "Water " + name;
+   }
+   
+   public int getDaysBetween(){
+     return daysBetweenWater;
+   }
+    
+   public int getOffset(){
+     return offset;
+   }
+    
+    /*    
+    //Returns the number of times the plant must be watered between start and end
+    //Highly recommended to pass start with a time set to midnight (or just after), and
+    //end with a time set to just before midnight
+    //Also, the value of start should align with the value of offset
+    //If the plant was watered the day before offset, then offset should be 1, for example
+    public int getDates(GregorianCalendar start, GregorianCalendar end){
+      int out = 0;
+      start.add(GregorianCalendar.DATE, offset);
+      //Terminates when start is after end
+      while(!start.getTime().after(end.getTime())){
+         //Increment out
+         out++;
          //Offset time to next watering day
          start.add(GregorianCalendar.DATE, daysBetweenWater);
       }
-      return dates.toArray(new GregorianCalendar[dates.size()]);
+      return out;
     }
-    
-    //Return the name of the plant
-    public String getNameString(){
-      return name;
-    }
-    
-    //Return "Water " + getNameString()
-    public String getVerbString(){
-      return "Water " + name;
-    }
-    
-    //Return false, because plant watering is not given a specific time of day
-    public boolean isDaily(){
-      return false;
-    }
+    */
     
 }
