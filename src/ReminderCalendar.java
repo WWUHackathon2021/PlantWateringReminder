@@ -21,10 +21,12 @@ public class ReminderCalendar{
       this.days = new String[length];
    }
    
+   //Adds a reminder to the calendar
    void addReminder(Reminder reminder){
       reminders.add(reminder);
    }
    
+   //Increments the offset of each reminder by increment
    void incrementOffsets(int increment){
       for(Reminder check : reminders){
          check.setOffset(check.getOffset() + increment);
@@ -43,6 +45,7 @@ public class ReminderCalendar{
         }
    }
 
+   //Get functions
 
    String[] getDays(){
       return days;
@@ -51,4 +54,9 @@ public class ReminderCalendar{
    GregorianCalendar getToday(){
       return today;
    }
+   
+   ArrayList<Reminder> getReminders(){
+      return reminders;
+   }
+   
 }
