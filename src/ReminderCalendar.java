@@ -37,7 +37,7 @@ public class ReminderCalendar{
         for(Reminder check : reminders){
             dayIndex = check.getDaysBetween() - check.getOffset();
             while(dayIndex < days.length){
-                  days[dayIndex] = check.getVerbString() + (dayIndex + 1) + "\n";
+                  days[dayIndex] = (days[dayIndex] != null ? days[dayIndex] : "") + check.getVerbString() + "\n";
                   dayIndex += check.getDaysBetween();
             }
         }
