@@ -14,4 +14,6 @@ interface Reminder{
     void setOffset(int offset);
     //Returns the current value of offset
     int getOffset();
+    //Returns the type of icon this Reminder uses
+    int getIcon();
 }

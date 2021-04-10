@@ -7,10 +7,13 @@ public class ReminderCalendar{
    ArrayList<Reminder> reminders;
    //Stores the generated list of reminders for each day
    String[] days;
-      
+   //Stores the current date
+   GregorianCalendar today;
+   
    //Basic constructor
    ReminderCalendar(){
       reminders = new ArrayList<>();
+      today = new GregorianCalendar();
    };
    
    //Initializes days with the given number of days
@@ -29,7 +32,7 @@ public class ReminderCalendar{
    }
    
    //Updates the days array, according to the current reminders and range of days
-   void generateCalendar(){
+   void updateDays(){
         int dayIndex;
         for(Reminder check : reminders){
             dayIndex = check.getDaysBetween() - check.getOffset();
@@ -40,8 +43,12 @@ public class ReminderCalendar{
         }
    }
 
-  String[] getDays(){
+
+   String[] getDays(){
       return days;
    }
-   
+    
+   GregorianCalendar getToday(){
+      return today;
+   }
 }
