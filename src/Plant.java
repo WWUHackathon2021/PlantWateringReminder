@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class Plant implements Reminder{
    private String name;
@@ -23,6 +22,14 @@ public class Plant implements Reminder{
    //Return "Water " + getNameString()
    public String getVerbString(){
      return "Water " + name;
+   }
+   
+   public void incrementOffset(){
+      offset = (offset + 1) % daysBetweenWater;
+   }
+   
+   public void setOffset(int offset){
+      this.offset = offset % daysBetweenWater;
    }
    
    public int getDaysBetween(){

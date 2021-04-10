@@ -5,8 +5,13 @@ interface Reminder{
     String getNameString();
     //Return what is actually displayed in the calendar, like "Water roses" or "Feed dog"
     String getVerbString();
+    //Increments the value of offset
+    void incrementOffset();
     //Returns the amount of days between the reminder's occurences
     int getDaysBetween();
+    //Sets the value of offset (value of offset must be less than value of getDaysBetween, but the function will
+    //handle numbers larger than this
+    void setOffset(int offset);
     //Returns the current value of offset
     int getOffset();
 }

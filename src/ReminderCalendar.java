@@ -7,7 +7,6 @@ public class ReminderCalendar{
    ArrayList<Reminder> reminders;
    //Stores the generated list of reminders for each day
    String[] days;
-   //Stores the first day shown on the calendar
       
    //Basic constructor
    ReminderCalendar(){
@@ -21,6 +20,12 @@ public class ReminderCalendar{
    
    void addReminder(Reminder reminder){
       reminders.add(reminder);
+   }
+   
+   void incrementOffsets(int increment){
+      for(Reminder check : reminders){
+         check.setOffset(check.getOffset() + increment);
+      }
    }
    
    //Updates the days array, according to the current reminders and range of days
