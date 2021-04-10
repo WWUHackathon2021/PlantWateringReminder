@@ -1,10 +1,14 @@
 import java.util.ArrayList;
 
 public class Plant implements Reminder{
+   //Name of plant
    private String name;
+   //Days between watering
    private int daysBetweenWater;
    //Days since last time reminder triggered
+   //0 = today/never/etc. 1 = yesterday, so on
    private int offset;
+   //ID of icon
    private int icon;
 
    //Basic constructor
@@ -15,15 +19,7 @@ public class Plant implements Reminder{
       this.icon = icon;
    }
     
-   //Return the name of the plant
-   public String getNameString(){
-     return name;
-   }
-    
-   //Return "Water " + getNameString()
-   public String getVerbString(){
-     return "Water " + name;
-   }
+   //Offset functions
    
    public void incrementOffset(){
       offset = (offset + 1) % daysBetweenWater;
@@ -31,6 +27,16 @@ public class Plant implements Reminder{
    
    public void setOffset(int offset){
       this.offset = offset % daysBetweenWater;
+   }
+   
+   //Get functions
+   
+   public String getNameString(){
+     return name;
+   }
+    
+   public String getVerbString(){
+     return "Water " + name;
    }
    
    public int getDaysBetween(){
