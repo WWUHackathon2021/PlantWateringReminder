@@ -185,7 +185,8 @@ public class MainGUI extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(buttonPanel, gbc);
         addPlantButton = new JButton();
         addPlantButton.setText("Add Plant");
