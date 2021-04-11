@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.io.FileWriter;
+import org.json.simple.JSONObject;
+import java.util.Calendar;
 
 public class ReminderCalendar{
 
@@ -44,6 +47,44 @@ public class ReminderCalendar{
             }
         }
    }
+
+   //Saves data to JSON.
+   void saveData(){
+      JSONObject saveFile = new JSONObject();
+      JSONArray plantArray = new JSONArray();
+      int plantID = 0;
+      for(Reminder plant : reminders){
+         plantArray.add(plantObject(plant, plantID));
+         plantID++;
+      }
+      saveFile.put("date", dateObject);
+      saveFile.put("plants", plantArray);
+
+
+   }
+
+   // NAME:        plantObject
+   // INPUTS:      An instance of the Plant class, and an integer plantID
+   // OUTPUT:      A JSONObject containing the plant's info
+   // DESCRIPTION: Returns a JSONObject with a plant's data and integer plantID to it
+ 
+   JSONObject plantObject(Reminder plant, int plantID){
+      JSONObject thisObject = new JSONObject();
+      thisObject.put("id", plantID);
+      thisObject.put("name", plant.getNameString());
+      thisObject.put("interval", plant.getDaysBetween());
+      thisObject.put("icon", plant.getIcon());
+      return thisObject;
+   }
+   
+   JSONObject dateObject(){
+      JSONObject thisObject = new JSONObject();
+      thisObject.put("year", today.get(Calendar.YEAR));
+      thisObject.put("month", today.get(Calendar.MONTH));
+      thisObject.put("day", today.get(Calendar.DAY_OF_MONTH));
+      return thisObject;
+   }
+
 
    //Get functions
 
