@@ -15,7 +15,7 @@ public class ReminderCalendar{
    //Stores all of the Reminders that this calendar handles
    ArrayList<Reminder> reminders;
    //Stores the generated list of reminders for each day
-   String[] days;
+   String[][] days;
    //Stores the current date
    GregorianCalendar today;
    
@@ -28,7 +28,7 @@ public class ReminderCalendar{
    
    //Initializes days with the given number of days
    void setLength(int length){
-      this.days = new String[length];
+      this.days = new String[length][2];
    }
    
    //Adds a reminder to the calendar
@@ -64,9 +64,15 @@ public class ReminderCalendar{
         for(Reminder check : reminders){
             dayIndex = check.getDaysBetween() - check.getOffset();
             while(dayIndex < days.length){
-                  days[dayIndex] = (days[dayIndex] != null ? days[dayIndex] : "") + check.getVerbString() + "\n";
+                  days[dayIndex][1] = (days[dayIndex][1] != null ? days[dayIndex][1] : "") + check.getVerbString() + ", ";
                   dayIndex += check.getDaysBetween();
             }
+        }
+        GregorianCalendar temp = (GregorianCalendar)today.clone();
+        for(int i = 0; i < days.length; i++){
+           if(days[i][1] != null) days[i][1] = days[i][1].substring(0, days[i][1].length()-2);
+           days[i][0] = temp.get(GregorianCalendar.DAY_OF_YEAR) + "";
+           temp.add(GregorianCalendar.DAY_OF_YEAR, 1);
         }
    }
 
@@ -101,14 +107,7 @@ public class ReminderCalendar{
             reminders.add(new Plant((String)check2.get("name"), (int)(long)check2.get("interval"), (int)(long)check2.get("offset"), (int)(long)check2.get("icon")));
          }
          updateOffsets(new GregorianCalendar((int)(long)date.get("year"), (int)(long)date.get("month"), (int)(long)date.get("day")));
-      }
-      catch(FileNotFoundException e){
-         e.printStackTrace();
-      }
-      catch(IOException e){
-         e.printStackTrace();
-      }
-      catch(ParseException e){
+      } catch(IOException | ParseException e){
          e.printStackTrace();
       }
    }
@@ -137,7 +136,7 @@ public class ReminderCalendar{
 
    //Get functions
 
-   String[] getDays(){
+   String[][] getDays(){
       return days;
    }
     
