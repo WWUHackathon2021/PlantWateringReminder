@@ -20,11 +20,14 @@ public class MainGUI extends JFrame {
     private JButton saveDataButton;
     private JButton loadDataButton;
     private JPanel buttonPanel;
+    private JLabel leafLabel;
     private DefaultTableModel tableModel;
     private ReminderCalendar remCal;
 
     public MainGUI(){
         super("Plant Watering Reminder");
+        ImageIcon icon = new ImageIcon("assets/Leaf.png");
+        leafLabel.setIcon(icon);
         remCal = new ReminderCalendar();
         remCal.setLength(50);
         remCal.loadData();
