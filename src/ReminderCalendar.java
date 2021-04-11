@@ -1,10 +1,14 @@
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.io.FileWriter;
+import java.io.FileReader;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 import java.util.Calendar;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import org.json.simple.parser.ParseException;
 
 public class ReminderCalendar{
 
@@ -71,10 +75,8 @@ public class ReminderCalendar{
       JSONObject saveFile = new JSONObject();
       JSONArray plantArray = new JSONArray();
       JSONObject date = dateObject();
-      int plantID = 0;
       for(Reminder plant : reminders){
-         plantArray.add(plantObject(plant, plantID));
-         plantID++;
+         plantArray.add(plantObject(plant));
       }
       saveFile.put("date", date);
       saveFile.put("plants", plantArray);
@@ -86,17 +88,41 @@ public class ReminderCalendar{
          e.printStackTrace();
      }
    }
+   
+   void loadData(){
+      JSONParser parser = new JSONParser();
+      try(FileReader reader = new FileReader("save.json")){
+         JSONObject in = (JSONObject)parser.parse(reader);
+         JSONArray reminderArray = (JSONArray)in.get("plants");
+         JSONObject date = (JSONObject)in.get("date");
+         reminders = new ArrayList<>();
+         for(Object check : reminderArray){
+            JSONObject check2 = (JSONObject)check;
+            reminders.add(new Plant((String)check2.get("name"), (int)(long)check2.get("interval"), (int)(long)check2.get("offset"), (int)(long)check2.get("icon")));
+         }
+         updateOffsets(new GregorianCalendar((int)(long)date.get("year"), (int)(long)date.get("month"), (int)(long)date.get("day")));
+      }
+      catch(FileNotFoundException e){
+         e.printStackTrace();
+      }
+      catch(IOException e){
+         e.printStackTrace();
+      }
+      catch(ParseException e){
+         e.printStackTrace();
+      }
+   }
 
    // NAME:        plantObject
    // INPUTS:      An instance of the Plant class, and an integer plantID
    // OUTPUT:      A JSONObject containing the plant's info
    // DESCRIPTION: Returns a JSONObject with a plant's data and integer plantID to it
  
-   JSONObject plantObject(Reminder plant, int plantID){
+   JSONObject plantObject(Reminder plant){
       JSONObject thisObject = new JSONObject();
-      thisObject.put("id", plantID);
       thisObject.put("name", plant.getNameString());
       thisObject.put("interval", plant.getDaysBetween());
+      thisObject.put("offset", plant.getOffset());
       thisObject.put("icon", plant.getIcon());
       return thisObject;
    }
