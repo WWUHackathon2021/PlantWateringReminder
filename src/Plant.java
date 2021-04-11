@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Plant implements Reminder{
    //Name of plant
    private String name;
+   //Type of plant
+   private String type;
    //Days between watering
    private int daysBetweenWater;
    //Days since last time reminder triggered
@@ -12,8 +14,9 @@ public class Plant implements Reminder{
    private int icon;
 
    //Basic constructor
-   Plant(String name, int daysBetweenWater, int offset, int icon){
+   Plant(String name, String type, int daysBetweenWater, int offset, int icon){
       this.name = name;
+      this.type = type;
       this.daysBetweenWater = daysBetweenWater;
       this.offset = offset;
       this.icon = icon;
@@ -51,5 +54,5 @@ public class Plant implements Reminder{
       return icon;
    }
 
-   public String getType() {return "-";}
+   public String getType() {return type;}
 }

@@ -33,7 +33,13 @@ public class ReminderCalendar{
    
    //Adds a reminder to the calendar
    void addReminder(Reminder reminder){
+      reminder.setOffset(reminder.getOffset());
       reminders.add(reminder);
+   }
+
+   //Removes a reminder from the calendar
+   void removeReminder(int ID){
+      if(ID >= 0 && ID < reminders.size()) reminders.remove(ID);
    }
    
    void updateOffsets(GregorianCalendar currentDay){
@@ -61,8 +67,9 @@ public class ReminderCalendar{
    //Updates the days array, according to the current reminders and range of days
    void updateDays(){
         int dayIndex;
+        setLength(days.length);
         for(Reminder check : reminders){
-            dayIndex = check.getDaysBetween() - check.getOffset();
+            dayIndex = (check.getDaysBetween() - (check.getOffset()) % check.getDaysBetween());
             while(dayIndex < days.length){
                   days[dayIndex][1] = (days[dayIndex][1] != null ? days[dayIndex][1] : "") + check.getVerbString() + ", ";
                   dayIndex += check.getDaysBetween();
@@ -104,9 +111,10 @@ public class ReminderCalendar{
          reminders = new ArrayList<>();
          for(Object check : reminderArray){
             JSONObject check2 = (JSONObject)check;
-            reminders.add(new Plant((String)check2.get("name"), (int)(long)check2.get("interval"), (int)(long)check2.get("offset"), (int)(long)check2.get("icon")));
+            reminders.add(new Plant((String)check2.get("name"), (String)check2.get("type"), (int)(long)check2.get("interval"), (int)(long)check2.get("offset"), (int)(long)check2.get("icon")));
          }
-         updateOffsets(new GregorianCalendar((int)(long)date.get("year"), (int)(long)date.get("month"), (int)(long)date.get("day")));
+         today = (new GregorianCalendar((int)(long)date.get("year"), (int)(long)date.get("month"), (int)(long)date.get("day")));
+         updateOffsets(new GregorianCalendar());
       } catch(IOException | ParseException e){
          e.printStackTrace();
       }
@@ -120,6 +128,7 @@ public class ReminderCalendar{
    JSONObject plantObject(Reminder plant){
       JSONObject thisObject = new JSONObject();
       thisObject.put("name", plant.getNameString());
+      thisObject.put("type", plant.getType());
       thisObject.put("interval", plant.getDaysBetween());
       thisObject.put("offset", plant.getOffset());
       thisObject.put("icon", plant.getIcon());
