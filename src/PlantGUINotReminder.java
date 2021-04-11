@@ -1,5 +1,7 @@
-import javax.swing.*;
+// The main reason this is a main fucntion is because its mostly to experiment and learn about the swing library. 
+import javax.swing.*;///
 import java.awt.*;
+
 class gui{
     public static void main(String args[]){
        JFrame frame = new JFrame("Plant Watering Reminder");
