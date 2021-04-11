@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.io.FileWriter;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import java.util.Calendar;
+import java.io.IOException;
 
 public class ReminderCalendar{
 
@@ -16,8 +18,9 @@ public class ReminderCalendar{
    //Basic constructor
    ReminderCalendar(){
       reminders = new ArrayList<>();
+      //The GregorianCalendar constructor sets its parameters to the current time
       today = new GregorianCalendar();
-   };
+   }
    
    //Initializes days with the given number of days
    void setLength(int length){
@@ -27,6 +30,21 @@ public class ReminderCalendar{
    //Adds a reminder to the calendar
    void addReminder(Reminder reminder){
       reminders.add(reminder);
+   }
+   
+   void updateOffsets(GregorianCalendar currentDay){
+      //If same year, simply increment offset by difference in days
+      //If different year, increment offset by difference in days (can be negative) + number of days from years, including leap years
+      int lastYear = today.get(GregorianCalendar.YEAR);
+      int days = currentDay.get(GregorianCalendar.DAY_OF_YEAR) - today.get(GregorianCalendar.DAY_OF_YEAR);
+      while(lastYear != today.get(GregorianCalendar.YEAR)){
+         days += 365;
+         if(lastYear % 4 == 0 && (lastYear % 100 != 0 || lastYear % 100 == 0)){
+            days++;
+         }
+      }
+      incrementOffsets(days);
+      today = currentDay;
    }
    
    //Increments the offset of each reminder by increment
@@ -52,15 +70,21 @@ public class ReminderCalendar{
    void saveData(){
       JSONObject saveFile = new JSONObject();
       JSONArray plantArray = new JSONArray();
+      JSONObject date = dateObject();
       int plantID = 0;
       for(Reminder plant : reminders){
          plantArray.add(plantObject(plant, plantID));
          plantID++;
       }
-      saveFile.put("date", dateObject);
+      saveFile.put("date", date);
       saveFile.put("plants", plantArray);
+      try (FileWriter file = new FileWriter("save.json")) {
+         file.write(saveFile.toJSONString()); 
+         file.flush();
 
-
+     } catch (IOException e) {
+         e.printStackTrace();
+     }
    }
 
    // NAME:        plantObject
@@ -84,7 +108,6 @@ public class ReminderCalendar{
       thisObject.put("day", today.get(Calendar.DAY_OF_MONTH));
       return thisObject;
    }
-
 
    //Get functions
 
