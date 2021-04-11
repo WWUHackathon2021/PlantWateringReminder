@@ -16,4 +16,6 @@ interface Reminder{
     int getOffset();
     //Returns the type of icon this Reminder uses
     int getIcon();
+    //Returns the type of plant this is
+    String getType();
 }

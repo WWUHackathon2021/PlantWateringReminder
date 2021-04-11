@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class MainGUI extends JFrame {
     private JPanel mainPanel;
@@ -10,6 +11,11 @@ public class MainGUI extends JFrame {
     private JTable myPlantsTable;
     private JScrollPane upcomingScrollPane;
     private JTable upcomingRemindersTable;
+    private JButton addPlantButton;
+    private JButton removePlantButton;
+    private JButton saveDataButton;
+    private JButton loadDataButton;
+    private JPanel buttonPanel;
     private DefaultTableModel tableModel;
 
     public MainGUI(){
@@ -20,6 +26,7 @@ public class MainGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         myPlantsTable.setDefaultEditor(Object.class, null);
         upcomingRemindersTable.setDefaultEditor(Object.class, null);
+        buttonPanel.setMaximumSize(new Dimension(125, -1));
         setVisible(true);
     }
 
@@ -27,13 +34,18 @@ public class MainGUI extends JFrame {
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Name");
         tableModel.addColumn("Type");
-        tableModel.addColumn("Watering Interval");
-        tableModel.addColumn("Last Watered");
-        tableModel.addColumn("Next Watering");
+        tableModel.addColumn("Interval");
+        tableModel.addColumn("Last");
+        tableModel.addColumn("Next");
+        tableModel.addColumn("ID");
         for(int i = 0; i < data.length; i++){
             tableModel.insertRow(i, data[i]);
         }
         myPlantsTable.setModel(tableModel);
+        myPlantsTable.getColumnModel().getColumn(2).setMaxWidth(65);
+        myPlantsTable.getColumnModel().getColumn(3).setMaxWidth(65);
+        myPlantsTable.getColumnModel().getColumn(4).setMaxWidth(65);
+        myPlantsTable.getColumnModel().getColumn(5).setMaxWidth(20);
     }
 
     public void updateReminders(String[][] days){
@@ -44,7 +56,7 @@ public class MainGUI extends JFrame {
             tableModel.insertRow(i, days[i]);
         }
         upcomingRemindersTable.setModel(tableModel);
-        upcomingRemindersTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        upcomingRemindersTable.getColumnModel().getColumn(0).setMaxWidth(65);
     }
 
 }

@@ -50,4 +50,6 @@ public class Plant implements Reminder{
    public int getIcon(){
       return icon;
    }
+
+   public String getType() {return "-";}
 }

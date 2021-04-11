@@ -71,7 +71,7 @@ public class ReminderCalendar{
         GregorianCalendar temp = (GregorianCalendar)today.clone();
         for(int i = 0; i < days.length; i++){
            if(days[i][1] != null) days[i][1] = days[i][1].substring(0, days[i][1].length()-2);
-           days[i][0] = temp.get(GregorianCalendar.DAY_OF_YEAR) + "";
+           days[i][0] = (temp.get(GregorianCalendar.MONTH) + 1 )+ "/" + temp.get(GregorianCalendar.DAY_OF_MONTH) + "/" + temp.get(GregorianCalendar.YEAR);
            temp.add(GregorianCalendar.DAY_OF_YEAR, 1);
         }
    }
@@ -141,7 +141,7 @@ public class ReminderCalendar{
    }
     
    GregorianCalendar getToday(){
-      return today;
+      return (GregorianCalendar)today.clone();
    }
    
    ArrayList<Reminder> getReminders(){
